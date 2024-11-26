@@ -1,0 +1,13 @@
+package ie.atu.carsaleapp_customer;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CarSaleAppCustomerApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(CarSaleAppCustomerApplication.class, args);
+	}
+
+}
