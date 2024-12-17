@@ -1,5 +1,9 @@
-package ie.atu.carsaleapp_customer;
+package ie.atu.carsaleapp_customer.controllers;
 
+import ie.atu.carsaleapp_customer.entity.Car;
+import ie.atu.carsaleapp_customer.entity.Customer;
+import ie.atu.carsaleapp_customer.feignClient.CustomerClient;
+import ie.atu.carsaleapp_customer.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

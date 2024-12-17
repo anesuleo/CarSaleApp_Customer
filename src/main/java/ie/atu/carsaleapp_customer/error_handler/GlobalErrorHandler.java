@@ -1,4 +1,4 @@
-package ie.atu.carsaleapp_customer;
+package ie.atu.carsaleapp_customer.error_handler;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

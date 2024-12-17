@@ -1,4 +1,4 @@
-package ie.atu.carsaleapp_customer;
+package ie.atu.carsaleapp_customer.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
