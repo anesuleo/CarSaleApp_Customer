@@ -1,5 +1,7 @@
-package ie.atu.carsaleapp_customer;
+package ie.atu.carsaleapp_customer.service;
 
+import ie.atu.carsaleapp_customer.repository.CustomerRepository;
+import ie.atu.carsaleapp_customer.entity.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
