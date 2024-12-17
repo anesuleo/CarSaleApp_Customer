@@ -52,4 +52,8 @@ public class CustomerController {
     public List<Car> getAllCarsFromCarService() {
       return customerClient.getAllCars();
     }
+    @GetMapping("/car/{id}")
+    public Car getCarById(@PathVariable Long id){
+        return customerClient.getCarById(id);
+    }
 }
