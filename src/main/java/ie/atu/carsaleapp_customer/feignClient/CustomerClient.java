@@ -5,6 +5,7 @@ package ie.atu.carsaleapp_customer.feignClient;
 import ie.atu.carsaleapp_customer.entity.Car;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -18,4 +19,8 @@ public interface CustomerClient {
 
     @PostMapping("/addCar")
     Car addCar(@RequestBody Car car);
+
+    @GetMapping("/cars/{id}")
+    Car getCarById(@PathVariable("id") Long id);
+
 }
