@@ -13,10 +13,11 @@ import java.util.Optional;
 @RequestMapping("/customer")
 public class CustomerController {
     private final CustomerService customerService;
-    //private final CustomerClient customerClient;
+    private final CustomerClient customerClient;
     @Autowired
-    public CustomerController(CustomerService customerService ) {
+    public CustomerController(CustomerService customerService, CustomerClient customerClient) {
         this.customerService = customerService;
+        this.customerClient = customerClient;
     }
     @PostMapping("/addCustomer")
     public Customer addCustomer(@Valid @RequestBody Customer customer){
@@ -47,4 +48,8 @@ public class CustomerController {
         return ResponseEntity.ok(newCustomer);
     }
 
+    @GetMapping("/allcars")
+    public List<Car> getAllCarsFromCarService() {
+      return customerClient.getAllCars();
+    }
 }
