@@ -48,9 +48,23 @@ public class CustomerController {
     @PostMapping("/register")
     public ResponseEntity<?> registerCustomer(@Valid @RequestBody Customer customer) {
         try {
+            // Check if the email already exists
+            Optional<Customer> existingCustomerByEmail = customerService.findByEmail(customer.getEmail());
+            if (existingCustomerByEmail.isPresent()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("success", false, "message", "Email already exists"));
+            }
+            // Check if the phone number already exists
+            Optional<Customer> existingCustomerByPhone = customerService.findByPhoneNo(customer.getPhoneNo());
+            if (existingCustomerByPhone.isPresent()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("success", false, "message", "Phone number already exists"));
+            }
+            // If no duplicate found, register the new customer
             Customer newCustomer = customerService.addCustomer(customer);
             return ResponseEntity.ok(Map.of("success", true, "customer", newCustomer));
         } catch (Exception e) {
+            e.printStackTrace(); // Detailed logging for debugging
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("success", false, "message", "Registration failed: " + e.getMessage()));
         }
