@@ -47,11 +47,13 @@ public class CustomerController {
     }
     @PostMapping("/register")
     public ResponseEntity<?> registerCustomer(@Valid @RequestBody Customer customer) {
-        if (customerService.findByEmail(customer.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("success", false, "message", "Email already registered."));
+        try {
+            Customer newCustomer = customerService.addCustomer(customer);
+            return ResponseEntity.ok(Map.of("success", true, "customer", newCustomer));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("success", false, "message", "Registration failed: " + e.getMessage()));
         }
-        Customer newCustomer = customerService.addCustomer(customer);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("success", true, "message", "Registration successful", "customer", newCustomer));
     }
     @GetMapping("/allcars")
     public List<Car> getAllCarsFromCarService() {
