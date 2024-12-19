@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,8 +29,8 @@ public class Customer {
     private String lastName;
 
     @Column(name = "phone_number")
-    @NotNull(message = "phoneNo is not null")
-    private int phoneNo;
+    @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
+    private String phoneNo;
 
     @Column(name = "email")
     @Email(message = "put valid email")
