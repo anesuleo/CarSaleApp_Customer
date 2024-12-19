@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -66,7 +67,19 @@ public class CustomerController {
                     .body(Map.of("success", false, "message", "Registration failed: " + e.getMessage()));
         }
     }
+    @PutMapping("/updatePassword")
+    public ResponseEntity<?> updatePassword(@RequestBody Customer customer) {
+        String email = customer.getEmail();
+        String newPassword = customer.getPassword(); // assuming password is a field in Customer
 
+        try {
+            Customer updatedCustomer = customerService.updatePassword(email, newPassword);
+            return ResponseEntity.ok(Map.of("success", true, "message", "Password updated successfully"));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("success", false, "message", e.getMessage()));
+        }
+    }
     @GetMapping("/allcars")
     public List<Car> getAllCarsFromCarService() {
       return customerClient.getAllCars();
