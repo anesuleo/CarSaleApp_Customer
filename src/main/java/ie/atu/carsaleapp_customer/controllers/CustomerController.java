@@ -6,6 +6,7 @@ import ie.atu.carsaleapp_customer.feignClient.CustomerClient;
 import ie.atu.carsaleapp_customer.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,16 +37,14 @@ public class CustomerController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Customer loginRequest) {
         Optional<Customer> customer = customerService.findByEmail(loginRequest.getEmail());
-
         if (customer.isPresent() && customer.get().getPassword().equals(loginRequest.getPassword())) {
-            return ResponseEntity.ok(Map.of("success", true));
+            return ResponseEntity.ok(Map.of("success", true, "message", "Login successful"));
         } else if (customer.isPresent()) {
-            return ResponseEntity.ok(Map.of("success", false, "message", "Incorrect password."));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("success", false, "message", "Incorrect password"));
         } else {
-            return ResponseEntity.status(404).body(Map.of("message", "No account found."));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("success", false, "message", "No account found. Please register."));
         }
     }
-
     @PostMapping("/register")
     public ResponseEntity<?> registerCustomer(@Valid @RequestBody Customer customer) {
         Customer newCustomer = customerService.addCustomer(customer);
