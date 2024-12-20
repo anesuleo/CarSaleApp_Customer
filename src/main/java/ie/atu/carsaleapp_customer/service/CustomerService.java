@@ -27,14 +27,15 @@ public class CustomerService {
 //    public Optional<Customer> findByEmail(String email) {
 //        return customerRepository.findByEmail(email);
 //    }
-public Customer updatePassword(String email, String newPassword) {
-    Optional<Customer> customerOptional = customerRepository.findByEmail(email);
-    if (customerOptional.isPresent()) {
-        Customer customer = customerOptional.get();
-        customer.setPassword(newPassword); // Update password
-        return customerRepository.save(customer);
+public boolean updatePassword(String email, String newPassword) {
+    Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
+    if (optionalCustomer.isPresent()) {
+        Customer customer = optionalCustomer.get();
+        customer.setPassword(newPassword);
+        customerRepository.save(customer);
+        return true;
     }
-    throw new NoSuchElementException("Customer with email " + email + " not found");
+    return false;
 }
     public Optional<Customer> findByEmail(String email) {
         return customerRepository.findByEmail(email);

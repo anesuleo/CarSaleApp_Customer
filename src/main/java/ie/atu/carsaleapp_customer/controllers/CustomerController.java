@@ -67,19 +67,21 @@ public class CustomerController {
                     .body(Map.of("success", false, "message", "Registration failed: " + e.getMessage()));
         }
     }
-    @PutMapping("/updatePassword")
-    public ResponseEntity<?> updatePassword(@RequestBody Customer customer) {
-        String email = customer.getEmail();
-        String newPassword = customer.getPassword(); // assuming password is a field in Customer
+    @PutMapping("/updatePassword/{email}")
+    public ResponseEntity<String> updatePassword(@PathVariable String email, @RequestBody Map<String, String> requestBody) {
+        String newPassword = requestBody.get("password");
+        if (newPassword == null || newPassword.isBlank()) {
+            return ResponseEntity.badRequest().body("Password is required.");
+        }
 
-        try {
-            Customer updatedCustomer = customerService.updatePassword(email, newPassword);
-            return ResponseEntity.ok(Map.of("success", true, "message", "Password updated successfully"));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("success", false, "message", e.getMessage()));
+        boolean isUpdated = customerService.updatePassword(email, newPassword);
+        if (isUpdated) {
+            return ResponseEntity.ok("Password updated successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found.");
         }
     }
+
     @GetMapping("/allcars")
     public List<Car> getAllCarsFromCarService() {
       return customerClient.getAllCars();
