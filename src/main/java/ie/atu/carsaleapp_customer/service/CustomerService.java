@@ -37,6 +37,16 @@ public boolean updatePassword(String email, String newPassword) {
     }
     return false;
 }
+
+    public void deleteCustomerByEmail(String email) {
+        Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
+        if (optionalCustomer.isPresent()) {
+            customerRepository.delete(optionalCustomer.get());
+        } else {
+            throw new NoSuchElementException("Customer not found.");
+        }
+    }
+
     public Optional<Customer> findByEmail(String email) {
         return customerRepository.findByEmail(email);
     }
