@@ -82,6 +82,12 @@ public class CustomerController {
         }
     }
 
+    @DeleteMapping("/deleteCustomer/{email}")
+    public void deleteCustomerByEmail(@PathVariable String email) {
+        customerService.deleteCustomerByEmail(email);
+        System.out.println("Customer deleted successfully.");
+    }
+
     @GetMapping("/allcars")
     public List<Car> getAllCarsFromCarService() {
       return customerClient.getAllCars();
