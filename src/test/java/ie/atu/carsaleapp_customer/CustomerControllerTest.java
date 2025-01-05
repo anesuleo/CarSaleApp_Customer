@@ -42,11 +42,9 @@ public class CustomerControllerTest {
 
     @Test
     void testAddCustomer() throws Exception {
-        // Arrange: Mock customer and service response
         Customer customer = new Customer(1, "John", "Doe", "1234567890", "john@example.com", "password123");
         when(customerService.addCustomer(any(Customer.class))).thenReturn(customer);
 
-        // Act and Assert: Perform POST and verify response
         mockMvc.perform(post("/customer/addCustomer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customer)))
@@ -57,14 +55,13 @@ public class CustomerControllerTest {
 
     @Test
     void testGetAllCustomers() throws Exception {
-        // Arrange: Mock customer list and service response
         List<Customer> customers = List.of(
                 new Customer(1, "John", "Doe", "1234567890", "john@example.com", "password123"),
                 new Customer(2, "Jane", "Smith", "9876543210", "jane@example.com", "mypassword")
         );
         when(customerService.getAllCustomer()).thenReturn(customers);
 
-        // Act and Assert: Perform GET and verify response
+
         mockMvc.perform(get("/customer/allCustomers"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].firstName").value("John"))
@@ -73,14 +70,12 @@ public class CustomerControllerTest {
 
     @Test
     void testCustomerLogin() throws Exception {
-        // Arrange: Mock customer and service response
+
         Customer customer = new Customer(1, "Jane", "Doe", "1234567890", "jane@example.com", "password123");
         when(customerService.findByEmail("jane@example.com")).thenReturn(Optional.of(customer));
 
-        // Mock login request payload
         Map<String, String> loginRequest = Map.of("email", "jane@example.com", "password", "password123");
 
-        // Act and Assert: Perform POST and verify response
         mockMvc.perform(post("/customer/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequest)))
